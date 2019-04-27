@@ -1,0 +1,251 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2019/4/27
+  Time: 19:06
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<html>
+<head>
+    <title>电子书</title>
+</head>
+<style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: powderblue;
+    }
+
+    #mainDiv {
+        width: 100%;
+        height: 1900px;
+        /*background-color: red;*/
+    }
+
+    #topDivLeft {
+        width: 100%;
+        height: 80px;
+        background-color: deepskyblue;
+        font-size: 50px;
+        text-align: center;
+        line-height: 75px;
+        border-top: 1px black solid;
+        border-bottom: 1px black solid;
+    }
+
+    #searchModel {
+        padding-top: 40px;
+        padding-left: 40px;
+    }
+
+    #searchBookName {
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 500px;
+        height: 80px;
+        float: left;
+        font-size: 40px;
+        border: 1px black solid;
+    }
+
+    #titleSpan {
+        padding-left: 20px;
+        float: left;
+    }
+
+    #searchBtn, #myBookshelfBtn, #myNo1Btn, #myEmptionBtn {
+        margin-left: 3px;
+        float: left;
+        width: 80px;
+        height: 80px;
+        background-size: 80px, 80px;
+    }
+
+    #myBookshelfBtn, #myNo1Btn, #myEmptionBtn {
+        margin-left: 20px;
+    }
+
+    #searchBtn {
+        background-image: url("${pageContext.request.contextPath}/images/icon/search.png");
+    }
+
+    #myBookshelfBtn {
+        background-image: url("${pageContext.request.contextPath}/images/icon/bookshelf.png");
+    }
+
+    #myNo1Btn {
+        background-image: url("${pageContext.request.contextPath}/images/icon/no1.png");
+    }
+
+    #myEmptionBtn {
+        background-image: url("${pageContext.request.contextPath}/images/icon/emption.png");
+    }
+
+    .loginAndRegister {
+        float: right;
+        padding-right: 20px;
+        text-decoration: none;
+        font-size: 40px;
+    }
+
+    #innerBooks {
+        width: 100%;
+        height: 1700px;
+        float: left;
+        margin-top: 36px;
+        border-top: 2px black solid;
+        text-align: center;
+        font-size: 40px;
+        /*background-color: black;*/
+    }
+
+    #innerBooksTitle {
+        text-align: center;
+    }
+
+    #byOrder {
+        padding-right: 20px;
+        float: right;
+    }
+
+    #booksOuterDiv {
+        padding-left: 5%;
+        padding-top: 80px;
+        width: 95%;
+        height: 100%;
+        /*background-color: red;*/
+    }
+
+    #booksInnerDiv {
+        width: 95%;
+        height: 1662px;
+        /*background-color: green;*/
+    }
+
+    .bookImages {
+        float: left;
+        width: 250px;
+        height: 350px;
+    }
+
+    .bookNames {
+        float: left;
+        font-size: 30px;
+    }
+
+    .bookDiv {
+        padding-top: 10px;
+        padding-left: 33px;
+        padding-bottom: 45px;
+        float: left;
+        width: 250px;
+        height: 350px;
+        text-align: center;
+    }
+
+    #bottomDiv {
+        text-align: center;
+        float: left;
+        background-color: deepskyblue;
+        width: 100%;
+        height: 100px;
+        font-size: 35px;
+    }
+
+    #menuPagesDiv {
+        text-align: center;
+        border-top: 1px black solid;
+        padding-top: 10px;
+        width: 100%;
+        height: 150px;
+        /*background-color: blue;*/
+        float: left;
+    }
+</style>
+<script type="text/javascript">
+    var clearText = function (inputObj) {
+        inputObj.style.color = "black";
+        inputObj.value = "";
+    }
+
+    var getbackText = function (inputObj) {
+        inputObj.style.color = "darkgray";
+        inputObj.value = "斗破苍穹";
+    }
+
+    var showBookText = function (bookDivChildNodeObj) {
+        window.location.href = "${pageContext.request.contextPath}/system/showBookText?bookId="+bookDivChildNodeObj.parentElement.firstElementChild.value;
+    }
+</script>
+<body>
+<div id="totalDiv">
+    <div id="topDivLeft">
+        <span id="titleSpan">周健看书网</span>
+        <img src="${pageContext.request.contextPath}/images/icon/lookBook.png" style="width: 80px;height: 80px">
+        <a href="#" id="loginHref" class="loginAndRegister">登录</a>
+        <a href="#" id="RegisterHref" class="loginAndRegister">注册</a>
+    </div>
+    <div id="mainDiv">
+        <div id="searchModel">
+            <input type="text" id="searchBookName" name="searchBookName" value="斗破苍穹" onclick="clearText(this)"
+                   onmouseout="getbackText(this)" style="color: darkgray">
+            <input type="button" id="searchBtn">
+            <input type="button" id="myBookshelfBtn">
+            <input type="button" id="myNo1Btn">
+            <input type="button" id="myEmptionBtn">
+        </div>
+        <div id="innerBooks">
+            <span id="innerBooksTitle" style="font-size: 40px;float: left;padding-left: 20px">最新上线</span>
+            <div id="byOrder">
+                <span id="">排序:</span>
+                <a href="#">名称↑</a>
+                <a href="#">时间↑</a>
+            </div>
+            <div id="booksOuterDiv">
+                <div id="booksInnerDiv">
+                    <c:forEach items="${pageInfo.list}" var="book">
+                        <div class="bookDiv">
+                            <input type="hidden" value="${book.bookId}">
+                            <img onclick="showBookText(this)" class="bookImages" src="${pageContext.request.contextPath}/${book.bookPictureAddress}">
+                            <span class="bookNames" onclick="showBookText(this)">${book.bookName}</span>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+        <div id="menuPagesDiv" style="font-size: 40px;color: black">
+            <a class="ui label">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前第 ${pageInfo.pageNum }页,总${pageInfo.pages }页,总 ${pageInfo.total } 条记录
+            </a><br>
+            <a class="ui label" href="?pn=1">首页</a>
+            <c:if test="${pageInfo.hasPreviousPage }">
+                <a class="ui label" href="?pn=${pageInfo.pageNum-1}">&laquo;</a>
+            </c:if>
+
+            <c:forEach items="${pageInfo.navigatepageNums}" var="pageNum1">
+                <c:if test="${pageNum1 == pageInfo.pageNum}">
+                    <a class="ui label" href="?pn=${pageNum1}">${pageNum1}</a>
+                </c:if>
+                <c:if test="${pageNum1 != pageInfo.pageNum}">
+                    <a class="ui label" href="?pn=${pageNum1}">${pageNum1}</a>
+                </c:if>
+            </c:forEach>
+
+            <c:if test="${pageInfo.hasNextPage}">
+                <a class="ui label" href="?pn=${pageInfo.pageNum+1}">&raquo;</a>
+            </c:if>
+            <a class="ui label" href="?pn=${pageInfo.pages}">末页</a>
+        </div>
+    </div>
+    <div id="bottomDiv">
+        有问题联系QQ2315154075<br>
+        邮箱地址2315154075@qq.com
+    </div>
+</div>
+</body>
+</html>
